@@ -16,10 +16,16 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  console.error("DATABASE_URL is missing!");
+  console.error("ERROR: DATABASE_URL is missing in environment variables!");
+  // Depending on behavior, we might want to throw to stop execution or handle gracefully
+  // For now, let's allow it to continue but it will fail on query
+} else {
+  console.log("Database connection string found.");
 }
 
-const pool = new pg.Pool({ connectionString });
+const pool = new pg.Pool({
+  connectionString: connectionString || undefined,
+});
 const adapter = new PrismaPg(pool);
 
 export const prisma = new PrismaClient({ adapter });
