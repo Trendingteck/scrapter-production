@@ -1,0 +1,963 @@
+﻿{
+  "app_metadata_description": {
+    "description": "DescriÃ§Ã£o da extensÃ£o",
+    "message": "Automatize tarefas da web com IA! scrapter Ã© uma extensÃ£o de cÃ³digo aberto para o navegador que permite extrair dados, preencher formulÃ¡rios e muito mais."
+  },
+  "app_metadata_name": {
+    "description": "Nome da extensÃ£o",
+    "message": "scrapter: Agente Web de IA e AutomaÃ§Ã£o"
+  },
+  "errors_unknown": {
+    "message": "Ocorreu um erro desconhecido"
+  },
+  "errors_conn_serviceWorker": {
+    "message": "Falha ao conectar ao service worker"
+  },
+  "errors_cmd_unknown": {
+    "message": "Comando nÃ£o suportado: $COMMAND$.\n\nComandos disponÃ­veis: /state, /nohighlight, /replay <historySessionId>",
+    "placeholders": {
+      "command": {
+        "content": "$1",
+        "example": "/desconhecido"
+      }
+    }
+  },
+  "nav_newChat_a11y": {
+    "message": "Novo Chat"
+  },
+  "nav_loadHistory_a11y": {
+    "message": "Carregar HistÃ³rico"
+  },
+  "nav_settings_a11y": {
+    "message": "ConfiguraÃ§Ãµes"
+  },
+  "nav_back": {
+    "message": "â† Voltar"
+  },
+  "nav_back_a11y": {
+    "message": "Voltar para o chat"
+  },
+  "welcome_title": {
+    "message": "Bem-vindo ao scrapter!"
+  },
+  "welcome_instruction": {
+    "message": "Para comeÃ§ar, por favor, configure suas chaves de API na pÃ¡gina de configuraÃ§Ãµes."
+  },
+  "welcome_openSettings": {
+    "message": "Abrir ConfiguraÃ§Ãµes"
+  },
+  "welcome_quickStart": {
+    "message": "Guia de InÃ­cio RÃ¡pido"
+  },
+  "welcome_joinCommunity": {
+    "message": "Junte-se Ã  Nossa Comunidade"
+  },
+  "status_checkingConfig": {
+    "message": "Verificando configuraÃ§Ã£o..."
+  },
+  "chat_buttons_stop": {
+    "message": "Parar"
+  },
+  "chat_buttons_replay": {
+    "message": "Reproduzir"
+  },
+  "chat_buttons_send": {
+    "message": "Enviar"
+  },
+  "chat_input_placeholder": {
+    "message": "Como posso ajudar?"
+  },
+  "chat_input_form": {
+    "message": "FormulÃ¡rio de entrada de chat"
+  },
+  "chat_input_editor": {
+    "message": "Entrada de mensagem"
+  },
+  "chat_history_title": {
+    "message": "HistÃ³rico de Chat"
+  },
+  "chat_history_empty": {
+    "message": "Nenhum histÃ³rico de chat disponÃ­vel"
+  },
+  "chat_history_bookmark": {
+    "message": "Adicionar sessÃ£o aos favoritos"
+  },
+  "chat_history_delete": {
+    "message": "Excluir sessÃ£o"
+  },
+  "chat_bookmarks_header": {
+    "message": "InÃ­cio RÃ¡pido"
+  },
+  "chat_bookmarks_saveEdit": {
+    "message": "Salvar alteraÃ§Ãµes"
+  },
+  "chat_bookmarks_cancelEdit": {
+    "message": "Cancelar alteraÃ§Ãµes"
+  },
+  "chat_bookmarks_edit": {
+    "message": "Editar tÃ­tulo do favorito"
+  },
+  "chat_bookmarks_delete": {
+    "message": "Excluir favorito"
+  },
+  "chat_replay_starting": {
+    "message": "Iniciando reproduÃ§Ã£o da tarefa:\n\n\"$TASK$\"",
+    "placeholders": {
+      "task": {
+        "content": "$1",
+        "example": "Navegar para example.com"
+      }
+    }
+  },
+  "chat_replay_failed": {
+    "message": "ReproduÃ§Ã£o falhou: $ERROR_MESSAGE$",
+    "placeholders": {
+      "error_message": {
+        "content": "$1",
+        "example": "Tempo de conexÃ£o esgotado"
+      }
+    }
+  },
+  "chat_replay_invalidArgs": {
+    "message": "Argumentos invÃ¡lidos. Por favor, use o formato: /replay <historySessionId>"
+  },
+  "chat_replay_disabled": {
+    "message": "A reproduÃ§Ã£o estÃ¡ desativada nas configuraÃ§Ãµes gerais. Por favor, ative \"Reproduzir Tarefas HistÃ³ricas\" nas configuraÃ§Ãµes da extensÃ£o para usar este recurso."
+  },
+  "chat_replay_noHistory": {
+    "message": "Nenhum histÃ³rico de aÃ§Ã£o encontrado para a sessÃ£o \"$SESSION_ID$\".\n\nÃ‰ uma sessÃ£o de reproduÃ§Ã£o (sessÃµes de reproduÃ§Ã£o nÃ£o podem ser reproduzidas novamente), ou foi criada antes do recurso de reproduÃ§Ã£o estar disponÃ­vel.",
+    "placeholders": {
+      "session_id": {
+        "content": "$1",
+        "example": "abc123def456789"
+      }
+    }
+  },
+  "chat_stt_processing": {
+    "message": "Processando fala..."
+  },
+  "chat_stt_recording_stop": {
+    "message": "Parar gravaÃ§Ã£o"
+  },
+  "chat_stt_input_start": {
+    "message": "Iniciar entrada de voz"
+  },
+  "chat_stt_processingFailed": {
+    "message": "Falha ao processar gravaÃ§Ã£o de fala"
+  },
+  "chat_stt_model_notFound": {
+    "message": "Nenhum modelo de conversÃ£o de fala para texto configurado ou nÃ£o Ã© um modelo Gemini. Por favor, configure um modelo Gemini nas configuraÃ§Ãµes."
+  },
+  "chat_stt_recognitionFailed": {
+    "message": "Reconhecimento de fala falhou"
+  },
+  "chat_stt_microphone_permissionDenied": {
+    "message": "Acesso ao microfone negado. Por favor, ative as permissÃµes de microfone nas configuraÃ§Ãµes do navegador."
+  },
+  "chat_stt_microphone_accessFailed": {
+    "message": "Falha ao acessar o microfone. "
+  },
+  "chat_stt_microphone_grantPermission": {
+    "message": "Por favor, conceda permissÃ£o ao microfone."
+  },
+  "chat_stt_microphone_notFound": {
+    "message": "Nenhum microfone encontrado."
+  },
+  "permissions_microphone_title": {
+    "message": "Ativar Entrada de Voz"
+  },
+  "permissions_microphone_description": {
+    "message": "O scrapter precisa de acesso ao microfone para converter sua fala em texto."
+  },
+  "permissions_microphone_grantButton": {
+    "message": "Conceder PermissÃ£o ao Microfone"
+  },
+  "permissions_microphone_requesting": {
+    "message": "Solicitando permissÃ£o de microfone..."
+  },
+  "permissions_microphone_grantedSuccess": {
+    "message": "âœ… PermissÃ£o de microfone concedida! Agora vocÃª pode usar a entrada de voz."
+  },
+  "permissions_microphone_grantedButton": {
+    "message": "PermissÃ£o Concedida"
+  },
+  "permissions_microphone_denied": {
+    "message": "PermissÃ£o negada. "
+  },
+  "permissions_microphone_allowHelp": {
+    "message": "Por favor, clique em \"Permitir\" quando solicitado o acesso ao microfone."
+  },
+  "permissions_microphone_notFound": {
+    "message": "Nenhum microfone encontrado. Por favor, verifique seus dispositivos de Ã¡udio."
+  },
+  "permissions_microphone_alreadyGranted": {
+    "message": "âœ… PermissÃ£o de microfone jÃ¡ concedida!"
+  },
+  "permissions_microphone_alreadyGrantedButton": {
+    "message": "PermissÃ£o JÃ¡ Concedida"
+  },
+  "options_nav_header": {
+    "message": "ConfiguraÃ§Ãµes"
+  },
+  "options_tabs_general": {
+    "message": "Geral"
+  },
+  "options_tabs_models": {
+    "message": "Modelos"
+  },
+  "options_tabs_firewall": {
+    "message": "Firewall"
+  },
+  "options_tabs_help": {
+    "message": "Ajuda"
+  },
+  "options_general_header": {
+    "message": "Geral"
+  },
+  "options_general_maxSteps": {
+    "message": "MÃ¡ximo de Passos por Tarefa"
+  },
+  "options_general_maxSteps_desc": {
+    "message": "Limite de passos por tarefa"
+  },
+  "options_general_maxActions": {
+    "message": "MÃ¡ximo de AÃ§Ãµes por Passo"
+  },
+  "options_general_maxActions_desc": {
+    "message": "Limite de aÃ§Ãµes por passo"
+  },
+  "options_general_maxFailures": {
+    "message": "TolerÃ¢ncia a Falhas"
+  },
+  "options_general_maxFailures_desc": {
+    "message": "Quantas falhas consecutivas antes de parar"
+  },
+  "options_general_enableVision": {
+    "message": "Ativar VisÃ£o"
+  },
+  "options_general_enableVision_desc": {
+    "message": "Usar capacidade de visÃ£o dos modelos de linguagem (consome mais tokens para melhores resultados)"
+  },
+  "options_general_displayHighlights": {
+    "message": "Mostrar Destaques"
+  },
+  "options_general_displayHighlights_desc": {
+    "message": "Mostrar destaques visuais em elementos interativos (ex: botÃµes, links, etc.)"
+  },
+  "options_general_planningInterval": {
+    "message": "FrequÃªncia de Replanejamento"
+  },
+  "options_general_planningInterval_desc": {
+    "message": "Reconsiderar e atualizar o plano a cada [NÃºmero] passos"
+  },
+  "options_general_minWaitPageLoad": {
+    "message": "Tempo de Espera de Carregamento da PÃ¡gina"
+  },
+  "options_general_minWaitPageLoad_desc": {
+    "message": "Tempo mÃ­nimo de espera apÃ³s o carregamento da pÃ¡gina (250-5000ms)"
+  },
+  "options_general_replayHistoricalTasks": {
+    "message": "Reproduzir Tarefas HistÃ³ricas (experimental)"
+  },
+  "options_general_replayHistoricalTasks_desc": {
+    "message": "Ativar o armazenamento e a reproduÃ§Ã£o do histÃ³rico de passos do agente (experimental, pode ter problemas)"
+  },
+  "options_models_providers_header": {
+    "message": "Provedores de LLM"
+  },
+  "options_models_providers_notConfigured": {
+    "message": "Nenhum provedor configurado ainda. Adicione um provedor para comeÃ§ar."
+  },
+  "options_models_providers_btnCancel": {
+    "message": "Cancelar"
+  },
+  "options_models_providers_btnSave": {
+    "message": "Salvar"
+  },
+  "options_models_providers_btnDelete": {
+    "message": "Excluir"
+  },
+  "options_models_providers_setupInstructions": {
+    "message": "Insira sua chave de API e clique em Salvar para configurÃ¡-la."
+  },
+  "options_models_providers_custom_name": {
+    "message": "Nome"
+  },
+  "options_models_providers_custom_name_desc": {
+    "message": "Nome do provedor (espaÃ§os nÃ£o sÃ£o permitidos ao salvar)"
+  },
+  "options_models_providers_custom_name_placeholder": {
+    "message": "Nome do provedor"
+  },
+  "options_models_providers_apiKey": {
+    "message": "Chave de API"
+  },
+  "options_models_providers_apiKey_placeholder_optional": {
+    "message": "Chave de API (opcional)"
+  },
+  "options_models_providers_apiKey_placeholder_required": {
+    "message": "Chave de API (obrigatÃ³rio)"
+  },
+  "options_models_providers_apiKey_placeholder_ollama": {
+    "message": "Chave de API (deixe em branco para Ollama)"
+  },
+  "options_models_providers_apiKey_hide": {
+    "message": "Ocultar chave de API"
+  },
+  "options_models_providers_apiKey_show": {
+    "message": "Mostrar chave de API"
+  },
+  "options_models_selection_header": {
+    "message": "SeleÃ§Ã£o de Modelo"
+  },
+  "options_models_speechToText_header": {
+    "message": "Modelo de Fala para Texto"
+  },
+  "options_models_agents_navigator": {
+    "message": "Navega em sites e executa aÃ§Ãµes"
+  },
+  "options_models_agents_planner": {
+    "message": "Desenvolve e refina estratÃ©gias para completar tarefas"
+  },
+  "options_models_labels_model": {
+    "message": "Modelo"
+  },
+  "options_models_labels_temperature": {
+    "message": "Temperatura"
+  },
+  "options_models_labels_topP": {
+    "message": "Top P"
+  },
+  "options_models_labels_reasoning": {
+    "message": "RaciocÃ­nio"
+  },
+  "options_models_stt_desc": {
+    "message": "Configure o modelo Gemini usado para converter fala em texto ao usar o recurso de microfone."
+  },
+  "options_models_chooseModel": {
+    "message": "Escolher Modelo"
+  },
+  "options_models_addNewProvider": {
+    "message": "Adicionar Novo Provedor"
+  },
+  "options_models_providers_openaiCompatible": {
+    "message": "Provedor de API compatÃ­vel com OpenAI"
+  },
+  "options_models_providers_baseUrl": {
+    "message": "URL Base"
+  },
+  "options_models_providers_endpoint": {
+    "message": "Endpoint"
+  },
+  "options_models_providers_deployment": {
+    "message": "ImplantaÃ§Ã£o"
+  },
+  "options_models_providers_apiVersion": {
+    "message": "VersÃ£o da API"
+  },
+  "options_models_providers_models": {
+    "message": "Modelos"
+  },
+  "options_models_providers_placeholders_baseUrl_custom": {
+    "message": "Endpoint de API compatÃ­vel com OpenAI obrigatÃ³rio"
+  },
+  "options_models_providers_placeholders_baseUrl_azure": {
+    "message": "https://SEU_NOME_DE_RECURSO.openai.azure.com/"
+  },
+  "options_models_providers_placeholders_baseUrl_openrouter": {
+    "message": "URL Base do OpenRouter (opcional, padrÃ£o para https://openrouter.ai/api/v1)"
+  },
+  "options_models_providers_placeholders_baseUrl_llama": {
+    "message": "URL Base da API Llama (padrÃ£o para https://api.llama.com/v1)"
+  },
+  "options_models_providers_placeholders_baseUrl_ollama": {
+    "message": "URL base do Ollama"
+  },
+  "options_models_providers_placeholders_azureDeployment": {
+    "message": "Insira o nome do modelo Azure (ex: gpt-4o, gpt-4o-mini)"
+  },
+  "options_models_providers_placeholders_azureApiVersion": {
+    "message": "ex: 2025-04-01-preview"
+  },
+  "options_models_providers_deployment_desc": {
+    "message": "Digite o nome do modelo e pressione Enter ou EspaÃ§o para definir. O nome da implantaÃ§Ã£o deve corresponder ao nome do modelo OpenAI (ex: gpt-4o) para melhor compatibilidade."
+  },
+  "options_models_providers_models_instructions": {
+    "message": "Digite e pressione Enter ou EspaÃ§o para adicionar."
+  },
+  "options_models_providers_models_openrouter_empty": {
+    "message": "Nenhum modelo selecionado. Adicione nomes de modelos manualmente, se necessÃ¡rio."
+  },
+  "options_models_providers_ollama_reminder": {
+    "message": "a variÃ¡vel de ambiente DEVE ser definida para o servidor Ollama."
+  },
+  "options_models_providers_ollama_learnMore": {
+    "message": "Saiba mais"
+  },
+  "options_models_providers_errors_spacesNotAllowed": {
+    "message": "EspaÃ§os nÃ£o sÃ£o permitidos em nomes de provedores. Por favor, use sublinhados ou outros caracteres."
+  },
+  "options_models_providers_errors_baseUrlRequired": {
+    "message": "A URL Base Ã© obrigatÃ³ria para $PROVIDER$. Por favor, insira-a.",
+    "placeholders": {
+      "provider": {
+        "content": "$1",
+        "example": "Custom OpenAI"
+      }
+    }
+  },
+  "options_firewall_header": {
+    "message": "Firewall"
+  },
+  "options_firewall_enableToggle": {
+    "message": "Ativar Firewall"
+  },
+  "options_firewall_toggleFirewall_a11y": {
+    "message": "Ativar/Desativar Firewall"
+  },
+  "options_firewall_allowList_header": {
+    "message": "Lista de PermissÃµes"
+  },
+  "options_firewall_allowList_empty": {
+    "message": "Nenhum domÃ­nio na lista de permissÃµes. Uma lista de permissÃµes vazia significa que todos os domÃ­nios nÃ£o negados sÃ£o permitidos."
+  },
+  "options_firewall_denyList_header": {
+    "message": "Lista de NegaÃ§Ãµes"
+  },
+  "options_firewall_denyList_empty": {
+    "message": "Nenhum domÃ­nio na lista de negaÃ§Ãµes"
+  },
+  "options_firewall_placeholders_domainUrl": {
+    "message": "Insira domÃ­nio ou URL (ex: example.com, localhost, 127.0.0.1)"
+  },
+  "options_firewall_btnAdd": {
+    "message": "Adicionar"
+  },
+  "options_firewall_btnRemove": {
+    "message": "Remover"
+  },
+  "options_firewall_howItWorks_header": {
+    "message": "Como o Firewall Funciona"
+  },
+  "options_firewall_howItWorks": {
+    "message": "O firewall contÃ©m uma lista de negaÃ§Ãµes e uma lista de permissÃµes.\nSe ambas as listas estiverem vazias, todos os URLs sÃ£o permitidos\nA lista de negaÃ§Ãµes tem prioridade - se um URL corresponder a qualquer entrada da lista de negaÃ§Ãµes, ele serÃ¡ bloqueado\nQuando a lista de permissÃµes estÃ¡ vazia, todos os URLs nÃ£o negados sÃ£o permitidos\nQuando a lista de permissÃµes nÃ£o estÃ¡ vazia, apenas os URLs correspondentes sÃ£o permitidos\nCuringas ainda NÃƒO sÃ£o suportados\nA lista de permissÃµes Ã© preferÃ­vel Ã  lista de negaÃ§Ãµes"
+  },
+  "bg_errors_noTabId": {
+    "message": "Nenhum ID de aba fornecido"
+  },
+  "bg_errors_noTaskId": {
+    "message": "Nenhum ID de tarefa fornecido"
+  },
+  "bg_errors_noRunningTask": {
+    "message": "Nenhuma tarefa em execuÃ§Ã£o"
+  },
+  "bg_cmd_newTask_noTask": {
+    "message": "Nenhuma tarefa fornecida"
+  },
+  "bg_cmd_followUpTask_noTask": {
+    "message": "Nenhuma tarefa de acompanhamento fornecida"
+  },
+  "bg_cmd_followUpTask_cleaned": {
+    "message": "O executor foi limpo, nÃ£o Ã© possÃ­vel adicionar tarefa de acompanhamento"
+  },
+  "bg_cmd_resumeTask_noTask": {
+    "message": "Nenhuma tarefa para resumir"
+  },
+  "bg_cmd_state_printed": {
+    "message": "Estado impresso no console"
+  },
+  "bg_cmd_state_failed": {
+    "message": "Falha ao obter o estado"
+  },
+  "bg_cmd_nohighlight_ok": {
+    "message": "destaque removido"
+  },
+  "bg_cmd_stt_noAudioData": {
+    "message": "Nenhum dado de Ã¡udio fornecido"
+  },
+  "bg_cmd_stt_failed": {
+    "message": "Reconhecimento de fala falhou"
+  },
+  "bg_cmd_replay_noHistory": {
+    "message": "Nenhum ID de sessÃ£o de histÃ³rico fornecido"
+  },
+  "bg_cmd_replay_failed": {
+    "message": "ReproduÃ§Ã£o falhou"
+  },
+  "bg_setup_noApiKeys": {
+    "message": "Por favor, configure as chaves de API nas configuraÃ§Ãµes primeiro"
+  },
+  "bg_setup_noProvider": {
+    "message": "Provedor $PROVIDER$ nÃ£o encontrado nas configuraÃ§Ãµes",
+    "placeholders": {
+      "provider": {
+        "content": "$1",
+        "example": "openai"
+      }
+    }
+  },
+  "bg_setup_noAgentModel": {
+    "message": "Por favor, escolha um modelo para o agente nas configuraÃ§Ãµes primeiro"
+  },
+  "exec_errors_maxStepsReached": {
+    "message": "MÃ¡ximo de passos atingido"
+  },
+  "exec_errors_maxFailuresReached": {
+    "message": "MÃ¡ximo de falhas atingido"
+  },
+  "exec_task_cancel": {
+    "message": "Tarefa cancelada"
+  },
+  "exec_task_pause": {
+    "message": "Tarefa pausada"
+  },
+  "exec_task_fail": {
+    "message": "Tarefa falhou: \n\n$ERROR_MESSAGE$",
+    "placeholders": {
+      "error_message": {
+        "content": "$1",
+        "example": "Tempo de conexÃ£o esgotado"
+      }
+    }
+  },
+  "exec_replay_cancel": {
+    "message": "ReproduÃ§Ã£o cancelada"
+  },
+  "exec_replay_ok": {
+    "message": "ReproduÃ§Ã£o concluÃ­da"
+  },
+  "exec_replay_fail": {
+    "message": "ReproduÃ§Ã£o falhou: \n\n$ERROR_MESSAGE$",
+    "placeholders": {
+      "error_message": {
+        "content": "$1",
+        "example": "Erro de rede"
+      }
+    }
+  },
+  "exec_replay_historyNotFound": {
+    "message": "HistÃ³rico nÃ£o encontrado"
+  },
+  "exec_replay_historyEmpty": {
+    "message": "O histÃ³rico estÃ¡ vazio"
+  },
+  "act_searchGoogle_start": {
+    "message": "Procurando por \"$QUERY$\" no Google",
+    "placeholders": {
+      "query": {
+        "content": "$1",
+        "example": "clima hoje"
+      }
+    }
+  },
+  "act_searchGoogle_ok": {
+    "message": "Procurado por \"$QUERY$\" no Google",
+    "placeholders": {
+      "query": {
+        "content": "$1",
+        "example": "clima hoje"
+      }
+    }
+  },
+  "act_goToUrl_start": {
+    "message": "Navegando para $URL$",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://example.com"
+      }
+    }
+  },
+  "act_goToUrl_ok": {
+    "message": "Navegado para $URL$",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://example.com"
+      }
+    }
+  },
+  "act_goBack_start": {
+    "message": "Navegando para trÃ¡s"
+  },
+  "act_goBack_ok": {
+    "message": "Navegado para trÃ¡s"
+  },
+  "act_wait_start": {
+    "message": "Aguardando $SECONDS$ segundos",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "act_wait_ok": {
+    "message": "$SECONDS$ segundos se passaram",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "act_click_start": {
+    "message": "Clicar no elemento com Ã­ndice $INDEX$",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "act_errors_elementNotExist": {
+    "message": "Elemento com Ã­ndice $INDEX$ nÃ£o existe - tente novamente ou use aÃ§Ãµes alternativas",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "act_errors_elementNoLongerAvailable": {
+    "message": "Elemento nÃ£o estÃ¡ mais disponÃ­vel com o Ã­ndice $INDEX$ - muito provavelmente a pÃ¡gina mudou",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "act_click_fileUploader": {
+    "message": "Ãndice $INDEX$ - possui um elemento que abre o diÃ¡logo de upload de arquivo. Para fazer upload de arquivos, use uma funÃ§Ã£o especÃ­fica para upload de arquivos",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "act_click_ok": {
+    "message": "BotÃ£o clicado com Ã­ndice $INDEX$: $TEXT$",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      },
+      "text": {
+        "content": "$2",
+        "example": "BotÃ£o de Envio"
+      }
+    }
+  },
+  "act_click_newTabOpened": {
+    "message": "Nova aba aberta - mudando para ela"
+  },
+  "act_inputText_start": {
+    "message": "Inserir texto no Ã­ndice $INDEX$",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "act_inputText_ok": {
+    "message": "Inserir $TEXT$ no Ã­ndice $INDEX$",
+    "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "OlÃ¡ Mundo"
+      },
+      "index": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "act_switchTab_start": {
+    "message": "Mudando para a aba $TAB_ID$",
+    "placeholders": {
+      "tab_id": {
+        "content": "$1",
+        "example": "123456"
+      }
+    }
+  },
+  "act_switchTab_ok": {
+    "message": "Mudou para a aba $TAB_ID$",
+    "placeholders": {
+      "tab_id": {
+        "content": "$1",
+        "example": "123456"
+      }
+    }
+  },
+  "act_openTab_start": {
+    "message": "Abrindo $URL$ em nova aba",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://example.com"
+      }
+    }
+  },
+  "act_openTab_ok": {
+    "message": "Abriu $URL$ em nova aba",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://example.com"
+      }
+    }
+  },
+  "act_closeTab_start": {
+    "message": "Fechando aba $TAB_ID$",
+    "placeholders": {
+      "tab_id": {
+        "content": "$1",
+        "example": "123456"
+      }
+    }
+  },
+  "act_closeTab_ok": {
+    "message": "Fechou aba $TAB_ID$",
+    "placeholders": {
+      "tab_id": {
+        "content": "$1",
+        "example": "123456"
+      }
+    }
+  },
+  "act_cache_start": {
+    "message": "Armazenando em cache os resultados: $CONTENT$",
+    "placeholders": {
+      "content": {
+        "content": "$1",
+        "example": "PreferÃªncias do usuÃ¡rio salvas"
+      }
+    }
+  },
+  "act_cache_ok": {
+    "message": "Resultados armazenados em cache: $CONTENT$",
+    "placeholders": {
+      "content": {
+        "content": "$1",
+        "example": "PreferÃªncias do usuÃ¡rio salvas"
+      }
+    }
+  },
+  "act_scrollToPercent_start": {
+    "message": "Rolar para a porcentagem: $PERCENT$",
+    "placeholders": {
+      "percent": {
+        "content": "$1",
+        "example": "50"
+      }
+    }
+  },
+  "act_scrollToPercent_ok": {
+    "message": "Rolado para a porcentagem: $PERCENT$",
+    "placeholders": {
+      "percent": {
+        "content": "$1",
+        "example": "50"
+      }
+    }
+  },
+  "act_scrollToTop_start": {
+    "message": "Rolar para o topo"
+  },
+  "act_scrollToTop_ok": {
+    "message": "Rolado para o topo"
+  },
+  "act_scrollToBottom_start": {
+    "message": "Rolar para o final"
+  },
+  "act_scrollToBottom_ok": {
+    "message": "Rolado para o final"
+  },
+  "act_previousPage_start": {
+    "message": "Rolar para a pÃ¡gina anterior"
+  },
+  "act_previousPage_ok": {
+    "message": "Rolado para a pÃ¡gina anterior"
+  },
+  "act_nextPage_start": {
+    "message": "Rolar para a prÃ³xima pÃ¡gina"
+  },
+  "act_nextPage_ok": {
+    "message": "Rolado para a prÃ³xima pÃ¡gina"
+  },
+  "act_errors_alreadyAtTop": {
+    "message": "O elemento com Ã­ndice $INDEX$ jÃ¡ estÃ¡ no topo, nÃ£o Ã© possÃ­vel rolar para a pÃ¡gina anterior",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "act_errors_pageAlreadyAtTop": {
+    "message": "JÃ¡ estÃ¡ no topo da pÃ¡gina, nÃ£o Ã© possÃ­vel rolar para a pÃ¡gina anterior"
+  },
+  "act_errors_alreadyAtBottom": {
+    "message": "O elemento com Ã­ndice $INDEX$ jÃ¡ estÃ¡ no final, nÃ£o Ã© possÃ­vel rolar para a prÃ³xima pÃ¡gina",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "act_errors_pageAlreadyAtBottom": {
+    "message": "JÃ¡ estÃ¡ no final da pÃ¡gina, nÃ£o Ã© possÃ­vel rolar para a prÃ³xima pÃ¡gina"
+  },
+  "act_scrollToText_start": {
+    "message": "Rolar para o texto: $TEXT$, ocorrÃªncia $OCCURRENCE$",
+    "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "Fale Conosco"
+      },
+      "occurrence": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
+  "act_scrollToText_ok": {
+    "message": "Rolado para o texto: $TEXT$, ocorrÃªncia $OCCURRENCE$",
+    "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "Fale Conosco"
+      },
+      "occurrence": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
+  "act_scrollToText_notFound": {
+    "message": "Texto '$TEXT$' (ocorrÃªncia $OCCURRENCE$) nÃ£o encontrado ou nÃ£o visÃ­vel",
+    "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "Fale Conosco"
+      },
+      "occurrence": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
+  "act_scrollToText_failed": {
+    "message": "Falha ao rolar para o texto: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Elemento nÃ£o encontrado"
+      }
+    }
+  },
+  "act_sendKeys_start": {
+    "message": "Enviar teclas: $KEYS$",
+    "placeholders": {
+      "keys": {
+        "content": "$1",
+        "example": "Enter"
+      }
+    }
+  },
+  "act_sendKeys_ok": {
+    "message": "Teclas enviadas: $KEYS$",
+    "placeholders": {
+      "keys": {
+        "content": "$1",
+        "example": "Enter"
+      }
+    }
+  },
+  "act_getDropdownOptions_start": {
+    "message": "Obtendo opÃ§Ãµes do menu suspenso com Ã­ndice $INDEX$",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "act_getDropdownOptions_useExactText": {
+    "message": "Use a string de texto exata em select_dropdown_option"
+  },
+  "act_getDropdownOptions_ok": {
+    "message": "Obtidas $COUNT$ opÃ§Ãµes do menu suspenso",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "act_getDropdownOptions_noOptions": {
+    "message": "Nenhuma opÃ§Ã£o encontrada no menu suspenso"
+  },
+  "act_getDropdownOptions_failed": {
+    "message": "Falha ao obter opÃ§Ãµes do menu suspenso: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Elemento nÃ£o encontrado"
+      }
+    }
+  },
+  "act_selectDropdownOption_start": {
+    "message": "Selecionar opÃ§Ã£o \"$TEXT$\" do menu suspenso com Ã­ndice $INDEX$",
+    "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "OpÃ§Ã£o 1"
+      },
+      "index": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "act_selectDropdownOption_ok": {
+    "message": "OpÃ§Ã£o selecionada \"$TEXT$\" do menu suspenso com Ã­ndice $INDEX$",
+    "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "OpÃ§Ã£o 1"
+      },
+      "index": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "act_selectDropdownOption_notSelect": {
+    "message": "NÃ£o Ã© possÃ­vel selecionar a opÃ§Ã£o: O elemento com Ã­ndice $INDEX$ Ã© um $TAG_NAME$, nÃ£o um SELECT",
+    "placeholders": {
+      "index": {
+        "content": "$1",
+        "example": "5"
+      },
+      "tag_name": {
+        "content": "$2",
+        "example": "DIV"
+      }
+    }
+  },
+  "act_selectDropdownOption_failed": {
+    "message": "Falha ao selecionar a opÃ§Ã£o: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "OpÃ§Ã£o nÃ£o encontrada"
+      }
+    }
+  }
+}

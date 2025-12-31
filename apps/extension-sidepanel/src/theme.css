@@ -1,0 +1,75 @@
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+        --primary: 24.6 95% 53.1%;
+        /* Orange-500 */
+        --primary-foreground: 0 0% 100%;
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 24.6 95% 53.1%;
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 24.6 95% 53.1%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 24.6 95% 53.1%;
+        --radius: 0.75rem;
+    }
+
+    .dark {
+        --background: 0 0% 15%;
+        /* Charcoal Grey #262626 */
+        --foreground: 0 0% 98%;
+        --card: 0 0% 18%;
+        /* Slightly lighter charcoal for cards */
+        --card-foreground: 0 0% 98%;
+        --popover: 0 0% 18%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 24.6 95% 53.1%;
+        /* Orange */
+        --primary-foreground: 0 0% 100%;
+        --secondary: 0 0% 25%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 0 0% 25%;
+        --muted-foreground: 0 0% 65%;
+        --accent: 0 0% 25%;
+        --accent-foreground: 0 0% 98%;
+        --border: 0 0% 25%;
+        --input: 0 0% 25%;
+        --ring: 24.6 95% 53.1%;
+    }
+}
+
+@layer components {
+    .bg-bg-main {
+        @apply bg-white dark:bg-zinc-800;
+        /* Charcoal */
+    }
+
+    .bg-bg-panel {
+        @apply bg-zinc-50 dark:bg-zinc-900;
+    }
+
+    .border-bg-border {
+        @apply border-zinc-200 dark:border-zinc-700;
+    }
+
+    .glass-panel {
+        @apply bg-white/80 dark:bg-zinc-800/80 backdrop-blur-md;
+    }
+
+    .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        background-image: linear-gradient(to right, #f97316, #ea580c);
+        /* Orange Gradient */
+    }
+}

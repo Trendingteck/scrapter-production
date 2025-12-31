@@ -1,0 +1,146 @@
+/* SidePanel.css - Additional styles for the SidePanel component */
+
+/* Minimal CSS as we are using Tailwind mostly */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Custom scrollbar */
+.scrollbar-custom::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #d4d4d8;
+    border-radius: 20px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: #a1a1aa;
+}
+
+/* Dark mode scrollbar */
+.dark .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #3f3f46;
+}
+
+.dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: #52525b;
+}
+
+/* Animation utilities */
+@keyframes bounce-custom {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.animate-bounce-1 {
+    animation: bounce-custom 1s infinite;
+    animation-delay: 0s;
+}
+
+.animate-bounce-2 {
+    animation: bounce-custom 1s infinite;
+    animation-delay: 0.2s;
+}
+
+.animate-bounce-3 {
+    animation: bounce-custom 1s infinite;
+    animation-delay: 0.4s;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.animate-shimmer-gradient {
+    background: linear-gradient(90deg, #e4e4e7 25%, #f4f4f5 50%, #e4e4e7 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+}
+
+/* Prose styles for markdown content */
+.prose {
+    color: inherit;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+
+.prose p {
+    margin-bottom: 0.5em;
+}
+
+.prose ul,
+.prose ol {
+    padding-left: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.prose code {
+    background-color: #f4f4f5;
+    padding: 0.1em 0.3em;
+    border-radius: 0.25em;
+    font-size: 0.875em;
+}
+
+.prose pre {
+    background-color: #18181b;
+    color: #f4f4f5;
+    padding: 1em;
+    border-radius: 0.5em;
+    overflow-x: auto;
+    margin: 0.5em 0;
+}
+
+.prose pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Dark mode prose */
+.dark .prose code {
+    background-color: #27272a;
+}
+
+/* Focus styles */
+.focus-visible:focus {
+    outline: 2px solid #f97316;
+    outline-offset: 2px;
+}
+
+/* Transition utilities */
+.transition-fast {
+    transition-duration: 150ms;
+}
+
+.transition-normal {
+    transition-duration: 200ms;
+}
