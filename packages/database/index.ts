@@ -13,20 +13,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
-let connectionString = process.env.DATABASE_URL;
-
-if (connectionString) {
-  // Fix for Neon/Vercel hangs: Remove channel_binding which some drivers don't support well
-  if (connectionString.includes("channel_binding=require")) {
-    connectionString = connectionString
-      .replace("channel_binding=require", "")
-      .replace("&&", "&")
-      .replace("?&", "?");
-    if (connectionString.endsWith("&") || connectionString.endsWith("?")) {
-      connectionString = connectionString.slice(0, -1);
-    }
-  }
-}
+const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
   console.error("❌ ERROR: DATABASE_URL is missing!");
