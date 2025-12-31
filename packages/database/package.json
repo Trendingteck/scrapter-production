@@ -12,7 +12,8 @@
     "db:pull": "prisma db pull",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
-    "db:seed": "tsx scripts/seed-admin.ts"
+    "db:seed": "tsx scripts/seed-admin.ts",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "schema": "prisma/schema.prisma",
@@ -22,14 +23,14 @@
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.11.24",
     "@types/pg": "^8.11.0",
-    "prisma": "^7.2.0",
+    "prisma": "^6.19.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.2.0",
-    "@prisma/client": "^7.2.0",
+    "@prisma/adapter-pg": "^6.19.1",
+    "@prisma/client": "^6.19.1",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "pg": "^8.11.3"
