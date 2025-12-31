@@ -1,4 +1,4 @@
-import { serve } from "@hono/node-server";
+// import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { prisma } from "@scrapter/database";
@@ -19,7 +19,9 @@ type Variables = {
 
 const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
 
+// SILENCE FAVICON ERRORS
 app.get("/favicon.ico", (c) => c.body(null, 204));
+app.get("/favicon.png", (c) => c.body(null, 204));
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -449,7 +451,7 @@ app.post("/v1/chat", async (c) => {
   }
 });
 
-import { handle } from "hono/vercel";
+import { getRequestListener } from "@hono/node-server";
 
 // const port = 3001;
 // console.log(`Server is running on port ${port}`);
@@ -459,4 +461,4 @@ import { handle } from "hono/vercel";
 //   port
 // });
 
-export default handle(app);
+export default getRequestListener(app.fetch);
