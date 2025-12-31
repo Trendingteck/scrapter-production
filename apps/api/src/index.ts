@@ -1,4 +1,5 @@
 // import { serve } from "@hono/node-server";
+import { getRequestListener } from "@hono/node-server"; // User's fix for Vercel
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { prisma } from "@scrapter/database";
@@ -85,41 +86,64 @@ app.post("/auth/signup", async (c) => {
   });
 });
 
-// Real Login
+// Real Login (WITH DEBUG LOGS)
 app.post("/auth/login", async (c) => {
-  const { email, password } = await c.req.json();
+  console.log("1. Login request received");
 
-  const user = await prisma.user.findUnique({
-    where: { email },
-    include: { subscription: true },
-  });
+  try {
+    const body = await c.req.json();
+    console.log("2. Body parsed for:", body.email);
 
-  if (!user || !(await comparePassword(password, user.password))) {
-    return c.json({ error: "Invalid credentials" }, 401);
-  }
+    console.log("3. Connecting to DB...");
+    const user = await prisma.user.findUnique({
+      where: { email: body.email },
+      include: { subscription: true },
+    });
+    console.log("4. DB Search complete. User found:", !!user);
 
-  if (!user.emailVerified) {
-    return c.json({ error: "Email not verified" }, 403);
-  }
+    if (!user) {
+      console.log("5. User not found");
+      return c.json({ error: "Invalid credentials" }, 401);
+    }
 
-  const token = generateToken(32);
-  await prisma.session.create({
-    data: {
+    console.log("6. Comparing password...");
+    const isValid = await comparePassword(body.password, user.password);
+    console.log("7. Password valid:", isValid);
+
+    if (!isValid) {
+      return c.json({ error: "Invalid credentials" }, 401);
+    }
+
+    if (!user.emailVerified) {
+      console.log("8. Email not verified");
+      return c.json({ error: "Email not verified" }, 403);
+    }
+
+    console.log("9. Generating token...");
+    const token = generateToken(32);
+
+    await prisma.session.create({
+      data: {
+        sessionToken: token,
+        userId: user.id,
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+      },
+    });
+
+    console.log("10. Success! Sending response.");
+    return c.json({
       sessionToken: token,
-      userId: user.id,
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-    },
-  });
-
-  return c.json({
-    sessionToken: token,
-    user: {
-      email: user.email,
-      id: user.id,
-      name: user.name,
-      plan: user.subscription?.plan,
-    },
-  });
+      user: {
+        email: user.email,
+        id: user.id,
+        name: user.name,
+        plan: user.subscription?.plan,
+      },
+    });
+  } catch (error: any) {
+    console.error("!!! LOGIN CRASH !!!", error);
+    return c.json({ error: error.message || "Internal Error" }, 500);
+  }
 });
 
 // Email Verification
@@ -451,15 +475,7 @@ app.post("/v1/chat", async (c) => {
   }
 });
 
-import { getRequestListener } from "@hono/node-server";
-
-// const port = 3001;
-// console.log(`Server is running on port ${port}`);
-
-// serve({
-//   fetch: app.fetch,
-//   port
-// });
-
 console.log("Scrapter API initialized with @hono/node-server");
+
+// Export using the Adapter your fix relies on
 export default getRequestListener(app.fetch);
