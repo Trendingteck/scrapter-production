@@ -17,12 +17,13 @@
     "openai": "^6.13.0",
     "resend": "^6.6.0",
     "stripe": "^20.0.0",
+    "@prisma/client": "^7.2.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^20.11.17",
-    "prisma": "^6.0.0",
+    "prisma": "^7.2.0",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3"
   }
