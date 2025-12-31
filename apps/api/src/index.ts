@@ -1,5 +1,4 @@
-// import { serve } from "@hono/node-server";
-import { getRequestListener } from "@hono/node-server"; // User's fix for Vercel
+import { handle } from "hono/vercel";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { prisma } from "@scrapter/database";
@@ -475,7 +474,5 @@ app.post("/v1/chat", async (c) => {
   }
 });
 
-console.log("Scrapter API initialized with @hono/node-server");
-
-// Export using the Adapter your fix relies on
-export default getRequestListener(app.fetch);
+console.log("Scrapter API initialized with hono/vercel");
+export default handle(app);
