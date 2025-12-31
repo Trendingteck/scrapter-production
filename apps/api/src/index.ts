@@ -29,6 +29,28 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 app.use("/*", cors());
 app.get("/", (c) => c.text("Scrapter API is running!"));
 
+app.get("/health", async (c) => {
+  const envVars = {
+    DATABASE_URL: process.env.DATABASE_URL ? "FOUND (Masked)" : "MISSING",
+    NODE_ENV: process.env.NODE_ENV,
+    VERCEL: process.env.VERCEL ? "YES" : "NO",
+  };
+
+  let dbStatus = "Checking...";
+  try {
+    const result = await prisma.$queryRaw`SELECT 1 as test`;
+    dbStatus = "CONNECTED: " + JSON.stringify(result);
+  } catch (err: any) {
+    dbStatus = "FAILED: " + err.message;
+  }
+
+  return c.json({
+    status: "ok",
+    env: envVars,
+    db: dbStatus,
+  });
+});
+
 // Auth Middleware
 app.use("/v1/*", async (c, next) => {
   const authHeader = c.req.header("Authorization");

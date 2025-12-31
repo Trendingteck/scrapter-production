@@ -16,18 +16,30 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  console.error("ERROR: DATABASE_URL is missing in environment variables!");
-  // Depending on behavior, we might want to throw to stop execution or handle gracefully
-  // For now, let's allow it to continue but it will fail on query
+  console.error("❌ ERROR: DATABASE_URL is missing!");
 } else {
-  console.log("Database connection string found.");
+  const masked = connectionString.replace(/:([^@]+)@/, ":****@");
+  console.log(`✅ Database connection string found: ${masked}`);
 }
+
+const isVercel = process.env.VERCEL === "1";
 
 const pool = new pg.Pool({
   connectionString: connectionString || undefined,
+  connectionTimeoutMillis: 5000,
 });
-const adapter = new PrismaPg(pool);
 
-export const prisma = new PrismaClient({ adapter });
+pool.on("error", (err) => {
+  console.error("Unexpected error on idle client", err);
+});
+
+// Use the adapter only if needed. On Vercel Node runtime,
+// standard Prisma often works better with fewer moving parts.
+export const prisma = isVercel
+  ? new PrismaClient({ log: ["error", "warn"] })
+  : new PrismaClient({
+      adapter: new PrismaPg(pool),
+      log: ["error", "warn"],
+    });
 export { PrismaClient };
 export * from "@prisma/client";
