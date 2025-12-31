@@ -13,7 +13,20 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
-const connectionString = process.env.DATABASE_URL;
+let connectionString = process.env.DATABASE_URL;
+
+if (connectionString) {
+  // Fix for Neon/Vercel hangs: Remove channel_binding which some drivers don't support well
+  if (connectionString.includes("channel_binding=require")) {
+    connectionString = connectionString
+      .replace("channel_binding=require", "")
+      .replace("&&", "&")
+      .replace("?&", "?");
+    if (connectionString.endsWith("&") || connectionString.endsWith("?")) {
+      connectionString = connectionString.slice(0, -1);
+    }
+  }
+}
 
 if (!connectionString) {
   console.error("❌ ERROR: DATABASE_URL is missing!");
@@ -36,7 +49,10 @@ pool.on("error", (err) => {
 // Use the adapter only if needed. On Vercel Node runtime,
 // standard Prisma often works better with fewer moving parts.
 export const prisma = isVercel
-  ? new PrismaClient({ log: ["error", "warn"] })
+  ? new PrismaClient({
+      datasources: { db: { url: connectionString || undefined } },
+      log: ["error", "warn"],
+    })
   : new PrismaClient({
       adapter: new PrismaPg(pool),
       log: ["error", "warn"],

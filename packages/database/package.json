@@ -13,6 +13,7 @@
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "db:seed": "tsx scripts/seed-admin.ts",
+    "db:verify": "tsx scripts/verify-db.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {

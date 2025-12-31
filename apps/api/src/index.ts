@@ -78,33 +78,49 @@ app.use("/v1/*", async (c, next) => {
 
 // Real Signup
 app.post("/auth/signup", async (c) => {
-  const { email, password, name } = await c.req.json();
+  console.log("📝 [SIGNUP] Request received");
+  try {
+    const body = await c.req.json();
+    const { email, password, name } = body;
+    console.log(`📝 [SIGNUP] Payload parsed for: ${email}`);
 
-  const existingUser = await prisma.user.findUnique({ where: { email } });
-  if (existingUser) {
-    return c.json({ error: "User already exists" }, 400);
-  }
+    console.log("📝 [SIGNUP] Checking DB heartbeat...");
+    await prisma.$queryRaw`SELECT 1`;
+    console.log("📝 [SIGNUP] DB Heartbeat OK");
 
-  const hashedPassword = await hashPassword(password);
-  const verificationToken = generateToken(64);
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      console.log("📝 [SIGNUP] User already exists");
+      return c.json({ error: "User already exists" }, 400);
+    }
 
-  const user = await prisma.user.create({
-    data: {
-      email,
-      password: hashedPassword,
-      name,
-      verificationToken,
-      subscription: {
-        create: { plan: "FREE" },
+    const hashedPassword = await hashPassword(password);
+    const verificationToken = generateToken(64);
+
+    console.log("📝 [SIGNUP] Creating user...");
+    const user = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        name,
+        verificationToken,
+        subscription: {
+          create: { plan: "FREE" },
+        },
       },
-    },
-  });
+    });
+    console.log("📝 [SIGNUP] User created successfully");
 
-  await sendVerificationEmail(email, verificationToken);
+    await sendVerificationEmail(email, verificationToken);
+    console.log("📝 [SIGNUP] Verification email sent");
 
-  return c.json({
-    message: "User created. Please check your email for verification.",
-  });
+    return c.json({
+      message: "User created. Please check your email for verification.",
+    });
+  } catch (error: any) {
+    console.error("❌ [SIGNUP] CRITICAL ERROR:", error);
+    return c.json({ error: error.message || "Internal Server Error" }, 500);
+  }
 });
 
 // Real Login (WITH DEBUG LOGS)
@@ -116,6 +132,10 @@ app.post("/auth/login", async (c) => {
     console.log("2. Body parsed for:", body.email);
 
     console.log("3. Connecting to DB...");
+    console.log("3a. DB Heartbeat...");
+    await prisma.$queryRaw`SELECT 1`;
+    console.log("3b. Heartbeat OK");
+
     const user = await prisma.user.findUnique({
       where: { email: body.email },
       include: { subscription: true },
