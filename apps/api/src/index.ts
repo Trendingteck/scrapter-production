@@ -461,4 +461,5 @@ import { getRequestListener } from "@hono/node-server";
 //   port
 // });
 
+console.log("Scrapter API initialized with @hono/node-server");
 export default getRequestListener(app.fetch);
