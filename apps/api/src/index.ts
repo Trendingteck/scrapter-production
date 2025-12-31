@@ -433,10 +433,14 @@ app.post('/v1/chat', async (c) => {
   }
 });
 
-const port = 3001;
-console.log(`Server is running on port ${port}`);
+import { handle } from 'hono/vercel'
 
-serve({
-  fetch: app.fetch,
-  port
-});
+// const port = 3001;
+// console.log(`Server is running on port ${port}`);
+
+// serve({
+//   fetch: app.fetch,
+//   port
+// });
+
+export default handle(app)
