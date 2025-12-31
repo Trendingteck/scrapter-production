@@ -1,4 +1,4 @@
-import { handle } from "hono/vercel";
+import { getRequestListener } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { prisma } from "@scrapter/database";
@@ -496,5 +496,5 @@ app.post("/v1/chat", async (c) => {
   }
 });
 
-console.log("Scrapter API initialized with hono/vercel");
-export default handle(app);
+console.log("Scrapter API initialized with @hono/node-server");
+export default getRequestListener(app.fetch);
