@@ -1,4 +1,4 @@
-import { getRequestListener } from "@hono/node-server";
+import { getRequestListener, serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { prisma } from "@scrapter/database";
@@ -49,6 +49,34 @@ app.get("/health", async (c) => {
     env: envVars,
     db: dbStatus,
   });
+});
+
+// 1. Debug Endpoint: Test if POST body parsing works
+app.post("/debug/echo", async (c) => {
+  console.log("DEBUG: Echo endpoint hit");
+  try {
+    const body = await c.req.json();
+    console.log("DEBUG: Body parsed successfully", body);
+    return c.json({ received: body, message: "Body parsing works" });
+  } catch (e: any) {
+    console.error("DEBUG: Body parsing failed", e);
+    return c.json({ error: "Could not parse body", details: e.message }, 400);
+  }
+});
+
+// 2. Debug Endpoint: Test explicit DB connection
+app.get("/debug/db-force", async (c) => {
+  console.log("DEBUG: Forcing DB connection...");
+  const start = Date.now();
+  try {
+    // Force a raw query that bypasses Prisma cache
+    await prisma.$queryRaw`SELECT 1`;
+    console.log(`DEBUG: DB Success in ${Date.now() - start}ms`);
+    return c.json({ status: "connected", latency: Date.now() - start });
+  } catch (e: any) {
+    console.error("DEBUG: DB Failed", e);
+    return c.json({ error: e.message }, 500);
+  }
 });
 
 // Auth Middleware
@@ -517,4 +545,18 @@ app.post("/v1/chat", async (c) => {
 });
 
 console.log("Scrapter API initialized with @hono/node-server");
+
+// 2. Add Local Server Logic at the bottom
+// Only run this if NOT in Vercel, or if explicitly in Development
+if (process.env.NODE_ENV === "development" || !process.env.VERCEL) {
+  const port = 3001;
+  console.log(`🚀 Server is listening on http://localhost:${port}`);
+
+  serve({
+    fetch: app.fetch,
+    port,
+  });
+}
+
+// 3. Keep the default export for Vercel Serverless
 export default getRequestListener(app.fetch);
