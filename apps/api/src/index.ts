@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { prisma } from "@scrapter/database";
 import type { User, Subscription } from "@scrapter/database";
-import OpenAI from "openai";
+import { OpenAI } from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { hashPassword, comparePassword, generateToken } from "./lib/auth.js";
 import { sendVerificationEmail } from "./lib/email.js";
@@ -516,7 +516,6 @@ app.post("/v1/chat", async (c) => {
     }
   }
 
-  // Fallback to OpenAI
   const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
   try {
     const completion = await openai.chat.completions.create({
