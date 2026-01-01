@@ -1,12 +1,23 @@
 import { getRequestListener, serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { prisma } from "@scrapter/database";
+import { PrismaClient } from "@prisma/client";
 import type { User, Subscription } from "@scrapter/database";
 import { OpenAI } from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { hashPassword, comparePassword, generateToken } from "./lib/auth.js";
 import { sendVerificationEmail } from "./lib/email.js";
+
+// Global instantiation for Vercel
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    log: ["error", "warn"], // Reduce log overhead
+  });
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 type Bindings = {
   OPENAI_API_KEY: string;
