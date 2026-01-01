@@ -1,5 +1,6 @@
 {
   "name": "api",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "dev": "tsx --env-file=../../.env src/index.ts",

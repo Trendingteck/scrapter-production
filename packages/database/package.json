@@ -1,17 +1,18 @@
 {
   "name": "@scrapter/database",
   "version": "1.0.0",
-  "main": "index.ts",
-  "types": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "exports": {
-    ".": "./index.ts"
+    ".": "./dist/index.js"
   },
   "scripts": {
     "db:push": "prisma db push",
     "db:pull": "prisma db pull",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
+    "build": "tsc",
     "db:seed": "tsx scripts/seed-admin.ts",
     "db:verify": "tsx scripts/verify-db.ts",
     "postinstall": "prisma generate"
