@@ -4,11 +4,5 @@
       "source": "/(.*)",
       "destination": "/dist/index.js"
     }
-  ],
-  "functions": {
-    "dist/index.js": {
-      "maxDuration": 30,
-      "memory": 1024
-    }
-  }
+  ]
 }
