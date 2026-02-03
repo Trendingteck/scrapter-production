@@ -163,45 +163,69 @@ app.post("/auth/signup", async (c) => {
 });
 
 // Real Login (WITH DEBUG LOGS)
+// Real Login
 app.post("/auth/login", async (c) => {
   console.log("1. Login request received");
 
+  let body;
+
+  // --- PHASE 1: ROBUST BODY PARSING ---
   try {
-    // Add a race condition to see if json parsing is the blocker
-    const bodyPromise = c.req.json();
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("JSON Parse Timeout")), 5000),
+    // 1. Read raw text first.
+    // We do this to ensure Vercel actually delivered the payload before we try to parse it.
+    const rawBody = await c.req.text();
+    console.log(`1a. Raw Body received (${rawBody.length} chars)`);
+
+    if (!rawBody || rawBody.trim() === "") {
+      throw new Error("Request body is empty");
+    }
+
+    // 2. Parse manually
+    body = JSON.parse(rawBody);
+    console.log("2. Body parsed for:", body.email);
+  } catch (error: any) {
+    console.error("!!! BODY PARSING ERROR !!!", error);
+    return c.json(
+      { error: "Failed to read request body. Vercel might be dropping data." },
+      400,
+    );
+  }
+
+  // --- PHASE 2: DATABASE INTERACTION ---
+  try {
+    // Check DB Connection Mode (Debug Info)
+    const dbUrl = process.env.DATABASE_URL || "";
+    console.log(
+      "3. DB Config Check:",
+      dbUrl.includes("6543")
+        ? "Transaction Mode (Correct)"
+        : "Session Mode (Wrong)",
     );
 
-    const body: any = await Promise.race([bodyPromise, timeoutPromise]);
-    console.log("2. Body parsed for:", body.email);
-
-    console.log("3. Connecting to DB...");
-    console.log("3a. DB Heartbeat...");
+    // DB Heartbeat (Optional, but good for debugging connectivity)
+    console.log("3a. Testing DB Connection...");
     await prisma.$queryRaw`SELECT 1`;
-    console.log("3b. Heartbeat OK");
+    console.log("3b. DB Connection OK");
 
+    // Actual Logic
     const user = await prisma.user.findUnique({
       where: { email: body.email },
       include: { subscription: true },
     });
-    console.log("4. DB Search complete. User found:", !!user);
+    console.log("4. User found:", !!user);
 
     if (!user) {
-      console.log("5. User not found");
       return c.json({ error: "Invalid credentials" }, 401);
     }
 
     console.log("6. Comparing password...");
     const isValid = await comparePassword(body.password, user.password);
-    console.log("7. Password valid:", isValid);
 
     if (!isValid) {
       return c.json({ error: "Invalid credentials" }, 401);
     }
 
     if (!user.emailVerified) {
-      console.log("8. Email not verified");
       return c.json({ error: "Email not verified" }, 403);
     }
 
