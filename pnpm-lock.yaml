@@ -124,6 +124,9 @@ importers:
       '@scrapter/database':
         specifier: workspace:^
         version: link:../../packages/database
+      '@types/bcryptjs':
+        specifier: ^3.0.0
+        version: 3.0.0
       bcryptjs:
         specifier: ^3.0.3
         version: 3.0.3
@@ -149,9 +152,6 @@ importers:
         specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
-      '@types/bcryptjs':
-        specifier: ^3.0.0
-        version: 3.0.0
       '@types/node':
         specifier: ^20.11.17
         version: 20.19.27

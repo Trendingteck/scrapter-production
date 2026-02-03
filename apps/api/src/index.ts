@@ -167,7 +167,13 @@ app.post("/auth/login", async (c) => {
   console.log("1. Login request received");
 
   try {
-    const body = await c.req.json();
+    // Add a race condition to see if json parsing is the blocker
+    const bodyPromise = c.req.json();
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("JSON Parse Timeout")), 5000),
+    );
+
+    const body: any = await Promise.race([bodyPromise, timeoutPromise]);
     console.log("2. Body parsed for:", body.email);
 
     console.log("3. Connecting to DB...");
