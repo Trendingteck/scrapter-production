@@ -3,45 +3,76 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { prisma } from "@scrapter/database";
+import { comparePassword, generateToken } from "@/lib/auth";
 
-const API_URL = process.env.INTERNAL_API_URL || "http://localhost:3000/api";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const API_URL = `${BASE_URL}/api`;
 
 export async function login(prevState: any, formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
   try {
-    const res = await fetch(`${API_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+    // --- DIRECT DATABASE CALL (No Fetch!) ---
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: { subscription: true },
     });
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      return { error: data.error || "Login failed" };
+    if (!user || !user.password) {
+      return { error: "Invalid credentials" };
     }
+
+    const isValid = await comparePassword(password, user.password);
+    if (!isValid) {
+      return { error: "Invalid credentials" };
+    }
+
+    if (!user.emailVerified) {
+      return { error: "Email not verified" };
+    }
+
+    // Generate Session
+    const sessionToken = generateToken(32);
+    await prisma.session.create({
+      data: {
+        sessionToken,
+        userId: user.id,
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      },
+    });
+    // ----------------------------------------
 
     const cookieStore = await cookies();
 
-    // Secure HTTP-only cookie for server-side auth
-    cookieStore.set("session_token", data.sessionToken, {
+    // Secure HTTP-only cookie
+    cookieStore.set("session_token", sessionToken, {
       path: "/",
-      maxAge: 60 * 60 * 24 * 30, // 30 days
+      maxAge: 60 * 60 * 24 * 30,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
     });
 
-    // Public cookie for Client-side UI (Avatar, Name)
-    cookieStore.set("user_profile", JSON.stringify(data.user), {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 30,
-      httpOnly: false,
-    });
-  } catch (error) {
-    return { error: "Connection failed" };
+    // Public cookie for UI
+    cookieStore.set(
+      "user_profile",
+      JSON.stringify({
+        email: user.email,
+        id: user.id,
+        name: user.name,
+        plan: user.subscription?.plan,
+      }),
+      {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 30,
+        httpOnly: false,
+      },
+    );
+  } catch (error: any) {
+    console.error("Login Error:", error);
+    return { error: "Connection failed: " + error.message };
   }
 
   revalidatePath("/", "layout");
