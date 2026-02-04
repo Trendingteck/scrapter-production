@@ -33,11 +33,14 @@ pool.on("error", (err) => {
   console.error("Unexpected error on idle client", err);
 });
 
-// Use the adapter only if needed. On Vercel Node runtime,
-// standard Prisma often works better with fewer moving parts.
+// Use a placeholder for the connection string during build time to prevent crashes
+const effectiveConnectionString =
+  connectionString ||
+  "postgresql://postgres:postgres@localhost:5432/postgres?schema=public";
+
 export const prisma = isVercel
   ? new PrismaClient({
-      datasources: { db: { url: connectionString || undefined } },
+      datasources: { db: { url: effectiveConnectionString } },
       log: ["error", "warn"],
     })
   : new PrismaClient({
