@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard";
 
-const API_URL = process.env.INTERNAL_API_URL || "http://localhost:3001";
+const API_URL = process.env.INTERNAL_API_URL || "http://localhost:3000/api";
 
 export default async function DashboardLayout({
   children,

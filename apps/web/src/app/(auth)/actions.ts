@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
-const API_URL = process.env.INTERNAL_API_URL || "http://localhost:3001";
+const API_URL = process.env.INTERNAL_API_URL || "http://localhost:3000/api";
 
 export async function login(prevState: any, formData: FormData) {
   const email = formData.get("email") as string;

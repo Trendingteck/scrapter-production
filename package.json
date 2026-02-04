@@ -10,6 +10,7 @@
   "type": "module",
   "scripts": {
     "clean:bundle": "rimraf dist && turbo clean:bundle",
+    "clean:deep": "rimraf --glob \"**/.next\" \"**/.turbo\" \"**/.cache\" \"**/dist\" \"**/node_modules\" \"pnpm-lock.yaml\"",
     "clean:node_modules": "pnpx rimraf node_modules && pnpx turbo clean:node_modules",
     "clean:turbo": "rimraf .turbo && turbo clean:turbo",
     "clean": "pnpm clean:bundle && pnpm clean:turbo && pnpm clean:node_modules",
@@ -17,12 +18,14 @@
     "build": "pnpm clean:bundle && turbo ready && turbo build",
     "zip": "pnpm build && pnpm -F zipper zip",
     "dev": "turbo ready && cross-env __DEV__=true turbo watch dev --concurrency 20",
+    "dev:no-daemon": "turbo ready && cross-env __DEV__=true turbo watch dev --concurrency 20 --no-daemon",
     "e2e": "pnpm build && pnpm zip && turbo e2e",
     "type-check": "turbo type-check",
     "lint": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:fix": "turbo lint:fix --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "prettier": "turbo prettier --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
     "prepare": "husky",
+    "verify": "powershell -ExecutionPolicy Bypass -File scripts/check-setup.ps1",
     "update-version": "bash update_version.sh"
   },
   "dependencies": {

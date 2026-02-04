@@ -1,16 +1,20 @@
-﻿import { type ProviderConfig, type ModelConfig, ProviderTypeEnum } from '@extension/storage';
-import { BaseChatModel } from '@langchain/core/language_models/chat_models';
-import { type BaseMessage, AIMessage } from '@langchain/core/messages';
-import { ChatResult } from '@langchain/core/outputs';
-import { authStore } from '@extension/storage';
-import { ChatOpenAI } from '@langchain/openai';
-import { ChatAnthropic } from '@langchain/anthropic';
-import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
-import { ChatDeepSeek } from '@langchain/deepseek';
-import { ChatXAI } from '@langchain/xai';
-import { MANAGED_MODEL_IDS } from '@extension/storage';
+﻿import {
+  type ProviderConfig,
+  type ModelConfig,
+  ProviderTypeEnum,
+} from "@extension/storage";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
+import { type BaseMessage, AIMessage } from "@langchain/core/messages";
+import { ChatResult } from "@langchain/core/outputs";
+import { authStore } from "@extension/storage";
+import { ChatOpenAI } from "@langchain/openai";
+import { ChatAnthropic } from "@langchain/anthropic";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { ChatDeepSeek } from "@langchain/deepseek";
+import { ChatXAI } from "@langchain/xai";
+import { MANAGED_MODEL_IDS } from "@extension/storage";
 
-const API_ENDPOINT = 'http://localhost:3001/v1';
+const API_ENDPOINT = "http://localhost:3000/api/v1";
 
 class ScrapterSaaSModel extends BaseChatModel {
   private modelName: string;
@@ -23,25 +27,28 @@ class ScrapterSaaSModel extends BaseChatModel {
   }
 
   _llmType() {
-    return 'scrapter_saas';
+    return "scrapter_saas";
   }
 
-  async _generate(messages: BaseMessage[], options: this['ParsedCallOptions']): Promise<ChatResult> {
+  async _generate(
+    messages: BaseMessage[],
+    options: this["ParsedCallOptions"],
+  ): Promise<ChatResult> {
     const token = (await authStore.get()).sessionToken;
     if (!token) {
-      throw new Error('Authentication required. Please log in to Scrapter.');
+      throw new Error("Authentication required. Please log in to Scrapter.");
     }
 
     // Convert messages to a format the API expects
     const formattedMessages = messages.map((m) => ({
-      role: m._getType(), 
+      role: m._getType(),
       content: m.content,
     }));
 
     const response = await fetch(`${API_ENDPOINT}/chat`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -53,7 +60,9 @@ class ScrapterSaaSModel extends BaseChatModel {
 
     if (!response.ok) {
       if (response.status === 402) {
-        throw new Error("Plan limit reached. Please upgrade your subscription.");
+        throw new Error(
+          "Plan limit reached. Please upgrade your subscription.",
+        );
       }
       if (response.status === 401) {
         throw new Error("Session expired. Please log in again.");
@@ -63,7 +72,7 @@ class ScrapterSaaSModel extends BaseChatModel {
     }
 
     const data = await response.json();
-    const content = data.content || data.choices?.[0]?.message?.content || '';
+    const content = data.content || data.choices?.[0]?.message?.content || "";
 
     return {
       generations: [
@@ -76,11 +85,17 @@ class ScrapterSaaSModel extends BaseChatModel {
   }
 }
 
-export function createChatModel(providerConfig: ProviderConfig, modelConfig: ModelConfig): BaseChatModel {
+export function createChatModel(
+  providerConfig: ProviderConfig,
+  modelConfig: ModelConfig,
+): BaseChatModel {
   const temperature = modelConfig.parameters?.temperature as number | undefined;
-  
+
   // 1. Check for Managed Models first
-  if (modelConfig.modelName === MANAGED_MODEL_IDS.AUTO || modelConfig.modelName === MANAGED_MODEL_IDS.BEST) {
+  if (
+    modelConfig.modelName === MANAGED_MODEL_IDS.AUTO ||
+    modelConfig.modelName === MANAGED_MODEL_IDS.BEST
+  ) {
     return new ScrapterSaaSModel({
       modelName: modelConfig.modelName,
       temperature: temperature,
@@ -112,15 +127,15 @@ export function createChatModel(providerConfig: ProviderConfig, modelConfig: Mod
           model: modelConfig.modelName,
           temperature: temperature,
         });
-      
+
       // ... other providers
-      
+
       default:
-         // Fallback if provider not locally supported but key exists
-         return new ScrapterSaaSModel({
-            modelName: MANAGED_MODEL_IDS.AUTO,
-            temperature: temperature,
-         });
+        // Fallback if provider not locally supported but key exists
+        return new ScrapterSaaSModel({
+          modelName: MANAGED_MODEL_IDS.AUTO,
+          temperature: temperature,
+        });
     }
   }
 

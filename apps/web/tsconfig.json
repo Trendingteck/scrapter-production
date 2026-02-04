@@ -21,7 +21,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@extension/storage": ["../../packages/storage/index.ts"],
-      "@extension/ui": ["../../packages/ui/index.ts"]
+      "@extension/ui": ["../../packages/ui/index.ts"],
+      "@scrapter/database": ["../../packages/database/index.ts"]
     }
   },
   "include": [

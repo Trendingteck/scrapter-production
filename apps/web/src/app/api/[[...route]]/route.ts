@@ -1,23 +1,13 @@
-import { getRequestListener, serve } from "@hono/node-server";
 import { Hono } from "hono";
+import { handle } from "hono/vercel";
 import { cors } from "hono/cors";
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client"; // Imported in lib/prisma
 import type { User, Subscription } from "@scrapter/database";
 import { OpenAI } from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { hashPassword, comparePassword, generateToken } from "./lib/auth.js";
-import { sendVerificationEmail } from "./lib/email.js";
-
-// Global instantiation for Vercel
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
-
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({
-    log: ["error", "warn"], // Reduce log overhead
-  });
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+import { hashPassword, comparePassword, generateToken } from "@/lib/auth";
+import { sendVerificationEmail } from "@/lib/email";
+import { prisma } from "@/lib/prisma";
 
 type Bindings = {
   OPENAI_API_KEY: string;
@@ -28,7 +18,9 @@ type Variables = {
   user: User & { subscription: Subscription | null };
 };
 
-const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
+const app = new Hono<{ Bindings: Bindings; Variables: Variables }>().basePath(
+  "/api",
+);
 
 // SILENCE FAVICON ERRORS
 app.get("/favicon.ico", (c) => c.body(null, 204));
@@ -37,8 +29,10 @@ app.get("/favicon.png", (c) => c.body(null, 204));
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
+// CORS configuration - allow all for now as per original
 app.use("/*", cors());
-app.get("/", (c) => c.text("Scrapter API is running!"));
+
+app.get("/", (c) => c.text("Scrapter API is running via Next.js!"));
 
 app.get("/health", async (c) => {
   const envVars = {
@@ -111,7 +105,7 @@ app.use("/v1/*", async (c, next) => {
     return c.json({ error: "Email not verified" }, 403);
   }
 
-  c.set("user", session.user);
+  c.set("user", session.user as User & { subscription: Subscription | null });
   await next();
 });
 
@@ -163,7 +157,6 @@ app.post("/auth/signup", async (c) => {
 });
 
 // Real Login (WITH DEBUG LOGS)
-// Real Login
 app.post("/auth/login", async (c) => {
   console.log("1. Login request received");
 
@@ -219,7 +212,9 @@ app.post("/auth/login", async (c) => {
     }
 
     console.log("6. Comparing password...");
-    const isValid = await comparePassword(body.password, user.password);
+    // const isValid = await comparePassword(body.password, user.password); // Ensure user.password exists
+    // The type User from @scrapter/database usually has password if it's the prisma generated type.
+    const isValid = await comparePassword(body.password, user.password || "");
 
     if (!isValid) {
       return c.json({ error: "Invalid credentials" }, 401);
@@ -397,6 +392,7 @@ app.delete("/v1/chat/sessions/:id", async (c) => {
   const sessionId = c.req.param("id");
   await prisma.chatSession.delete({
     where: { id: sessionId, userId: user.id },
+    // Ensure we only delete if it belongs to user
   });
   return c.json({ success: true });
 });
@@ -584,19 +580,8 @@ app.post("/v1/chat", async (c) => {
   }
 });
 
-console.log("Scrapter API initialized with @hono/node-server");
-
-// 2. Add Local Server Logic at the bottom
-// Only run this if NOT in Vercel, or if explicitly in Development
-if (process.env.NODE_ENV === "development" || !process.env.VERCEL) {
-  const port = 3001;
-  console.log(`🚀 Server is listening on http://localhost:${port}`);
-
-  serve({
-    fetch: app.fetch,
-    port,
-  });
-}
-
-// 3. Keep the default export for Vercel Serverless
-export default getRequestListener(app.fetch);
+export const GET = handle(app);
+export const POST = handle(app);
+export const PATCH = handle(app);
+export const DELETE = handle(app);
+export const PUT = handle(app);
