@@ -1,8 +1,18 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "globalEnv": ["__FIREFOX__"],
   "daemon": false,
+  "globalEnv": [
+    "__FIREFOX__",
+    "DATABASE_URL",
+    "DIRECT_URL",
+    "INTERNAL_API_URL",
+    "NEXT_PUBLIC_SITE_URL",
+    "RESEND_API_KEY",
+    "OPENAI_API_KEY",
+    "GEMINI_API_KEY",
+    "NODE_ENV"
+  ],
   "tasks": {
     "ready": {
       "dependsOn": ["^ready"],
@@ -17,7 +27,8 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["../../dist/**", "dist/**", "build/**"],
-      "cache": false
+      "env": ["DATABASE_URL", "NEXT_PUBLIC_SITE_URL"],
+      "cache": true
     },
     "e2e": {
       "cache": false
