@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["pg", "@prisma/client"],
+  serverExternalPackages: ["pg", "@prisma/client", "@scrapter/database"],
 };
 
 export default nextConfig;
